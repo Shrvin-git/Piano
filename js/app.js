@@ -10,34 +10,57 @@ let keysArray = []
 keysElem.forEach(function (key) {
   keysArray.push(key.dataset.key)
 })
+keysElem.forEach(function (k) {
+  k.addEventListener('click', function (event) {
+    let mainKey = event.target.dataset.key
+    console.log(event.target.dataset.value);
+    let audioSrc = `./public/tunes/${mainKey}.wav`
+    audio.src = audioSrc
+    audio.play()
 
+    let sss = document.querySelector(`[data-key=${mainKey}]`)
+    sss.classList.add('active')
+
+    setTimeout(function () {
+      sss.classList.remove('active')
+    }, 150)
+  })
+})
 function keyPress(event) {
   if (keysArray.includes(event.key)) {
-    keyNotes(event.key)
+    playNotes(event.key)
   }
 }
-function keyNotes(key) {
-  let musicSrc = `./public/tunes/${key}.wav`
-  audio.src = musicSrc
+function playNotes(key) {
+  let audioSrc = `./public/tunes/${key}.wav`
+  audio.src = audioSrc
   audio.play()
 
   let mainKey = document.querySelector(`[data-key=${key}]`)
   mainKey.classList.add('active')
+
   setTimeout(function () {
     mainKey.classList.remove('active')
   }, 150)
 }
-function setVolume(event) {
-  audio.volume = event.target.value
-}
+
+
+
+
+
+
+
 
 
 
 
 document.addEventListener('keypress', keyPress)
-setVolumeInput.addEventListener('change', setVolume)
 hideChar.addEventListener('click', function () {
-  keysElem.forEach(function (key) {
-    key.classList.toggle('hide')
+  keysElem.forEach(function (K) {
+    K.classList.toggle('hide')
   })
 })
+setVolumeInput.addEventListener('click', function () {
+  audio.volume = setVolumeInput.value
+})
+
